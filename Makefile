@@ -1,10 +1,15 @@
 # Specify HOST to cross compile
 # HOST = i686-w64-mingw32
 
-CC = $(HOST)-gcc
-LD = $(HOST)-gcc
+CC = gcc
+LD = gcc
 
-CFLAGS += -std=c99 -Wall -g
+CFLAGS += -std=c99 -Wall -Wextra
+
+ifneq ($(HOST),)
+CC := $(HOST)-$(CC)
+LD := $(HOST)-$(LD)
+endif
 
 SOURCES = main.c htable.c
 
@@ -24,7 +29,10 @@ E =
 SOURCES += randgen_unix.c
 endif
 
-OBJECTS = $(SOURCES:%.c=%.o)
+OBJECTS = $(addprefix $(HOST)_,$(SOURCES:%.c=%.o))
+
+$(HOST)_%.o: %.c
+	$(COMPILE.c) -o $@ $<
 
 diceware$(E): $(OBJECTS)
 	$(LINK.c) -o $@ $^
