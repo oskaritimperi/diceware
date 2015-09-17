@@ -1,2 +1,12 @@
 language: c
+sudo: required
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq gcc-mingw-w64
+
+env:
+  - HOST=
+  - HOST=i686-w64-mingw32
+
 script: make
