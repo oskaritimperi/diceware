@@ -6,9 +6,23 @@ before_install:
   - sudo apt-get install gcc-mingw-w64-i686
   - sudo apt-get install gcc-mingw-w64
   - sudo apt-get install mingw-w64-tools
-  
+
 env:
   - HOST=
   - HOST=i686-w64-mingw32
 
-script: make
+script:
+  - make
+
+before_deploy:
+  - export DICEWARE_VERSION=$(git describe --tags --always)
+  - make package
+
+deploy:
+  provider: releases
+  api_key:
+    secure: hv3ua4YfmQr+VIVdqLSWcwqJcvi7S64h4rpplPPLdf8153YBvNxwpeH3bGS2AKKgwOj6QmfjLe9Kf8stElPsa7K3+Xw8xEXg1asSLSRdOJWm4ihlYFw8S+GbNmAWhpwPxv5nfKw1DA638TUqGlidtHeaXGRgGi3I/+lGdCfzHFeI/NREmUMt78H1q+fWfEuYmDl3qoMnX/Xw7CE47rQeYvVIYG3MA9sKoFV6l5NsJt7uqEbVL2s5T4wNPvtWj4vZ3pd3zsx9YecInH+CatzlB5HbwbMJcx4yU5+Mh+bxEn0nMeLha1EwdneCDak/VGqsjw5MJIZFdmkDbnZSeYh+Cwa6sff4IXAfWXAO6bC2X6+afbvhTl7fSUhxLYa+xpoLqXTqwuTVjm975yNckSVZcjSqB/ZrrdGu7b50gHriGgJsgel7n1iHZZHyx7Hzpwx4qfHkKFh7XsLOTNalTICK0bNa0yyUppzdJPcFWlFxL+LuDCy/rYjZPW8DCmISfac2GVOZ/6+XRuYbga6iyZ5WjeJr1BthAieYdjxfc6b6aDZol0m25/PiDdF/5f+cmjbOyzuFT0/C2gdrHeKSgrSJPGODpDx2ru1AnrL62Sp09u+uklsauKOmecc9TzexcphVqc2NHE+VS9khV2+zNOIQt1hjDo+E5oZysHeBOz3ozZA=
+  file_glob: true
+  file: "diceware-*.zip"
+  on:
+    repo: oswjk/diceware

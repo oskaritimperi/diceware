@@ -41,3 +41,13 @@ diceware$(E): $(OBJECTS)
 clean:
 	$(RM) $(OBJECTS)
 	$(RM) diceware$(E)
+
+ifeq ($(BUILD_WIN32),)
+PACKAGEVER = $(DICEWARE_VERSION)
+else
+PACKAGEVER = $(DICEWARE_VERSION)-win32
+endif
+
+.PHONY: package
+package:
+	zip diceware-$(PACKAGEVER).zip diceware$(E)
