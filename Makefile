@@ -23,7 +23,7 @@ endif
 
 ifneq ($(BUILD_WIN32),)
 E = .exe
-SOURCES += randgen_win32.c
+SOURCES += randgen_win32.c winconsole.c
 else
 E =
 SOURCES += randgen_unix.c

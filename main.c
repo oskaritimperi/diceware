@@ -6,6 +6,10 @@
 #include <errno.h>
 #include <string.h>
 
+#ifdef _WIN32
+#include "winconsole.h"
+#endif
+
 /*
     Generates a random id of length `size-1` consisting of characters in the set
     [1-6] and places it in the buffer pointed to by `id`. The buffer is NULL
