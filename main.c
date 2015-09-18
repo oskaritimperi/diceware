@@ -106,6 +106,7 @@ int load_dictionary(const char *filename, struct htable *dict)
         if (!fgets(line, sizeof(line), fp))
             break;
 
+        /* Skip invalid lines. */
         if ((entry = parse_line(line)) == NULL)
             continue;
 
