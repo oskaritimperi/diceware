@@ -37,6 +37,11 @@ $(HOST)_%.o: %.c
 diceware$(E): $(OBJECTS)
 	$(LINK.c) -o $@ $^
 
+$(HOST)_winconsole.o: winconsole.h
+$(HOST)_main.o: winconsole.h htable.h randgen.h
+$(HOST)_htable.o: htable.h
+$(HOST)_randgen%.o: randgen.h
+
 .PHONY: clean
 clean:
 	$(RM) $(OBJECTS)
