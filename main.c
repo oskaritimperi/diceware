@@ -13,29 +13,20 @@
 */
 int get_random_id(struct randgen *randgen, char *id, size_t size)
 {
-    size_t n = 0;
-    unsigned char buf[512];
-    size_t i;
-
     assert(randgen != NULL);
     assert(id != NULL);
     assert(size > 0);
 
-    while (n < size-1)
+    if (randgen_generate(randgen, id, size-1) == -1)
+        return -1;
+
+    id[--size] = '\0';
+
+    while (size > 0)
     {
-        if (randgen_generate(randgen, buf, sizeof(buf)) == -1)
-            return -1;
-
-        for (i = 0; i < sizeof(buf) && n < size-1; ++i)
-        {
-            if (buf[i] >= '1' && buf[i] <= '6')
-            {
-                id[n++] = buf[i];
-            }
-        }
+        unsigned char q = ((unsigned char *) id)[size-1];
+        id[--size] = '1' + (q % 6);
     }
-
-    id[size-1] = '\0';
 
     return 0;
 }
